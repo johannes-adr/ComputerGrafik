@@ -1,0 +1,12 @@
+name: ComputerGrafik # the plugins name as it should appear in the plugin list /pl
+version: 1.0 # the plugin's version
+author: Your Name
+main: org.example.Main
+api-version: 1.20 # the version of the API you want to use, required starting with 1.13
+commands:
+  noise:
+    description: Builds a 3d Noise representation
+    usage: /<command> <x1>
+  empty:
+    description: clears world
+    usage: /<command> <x1>com
