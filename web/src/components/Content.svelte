@@ -98,36 +98,36 @@
 <Section title="Motivation">
     So wie die meisten habe ich früher viel Minecraft gespielt und war von der endlosen
     Größe der spielbaren Welt fasziniert. Damals als einfacher Benutzer habe ich das ganze
-    System nicht weiter hinterfragt, mit meiner stetig zunehmenden Interesse zur
-    funktionsweise von Software / IT wollte ich jedoch verstehen, wie und warum die Welt
+    System nicht weiter hinterfragt, mit meinem stetig zunehmenden Interesse zur
+    Funktionsweise von Software / IT wollte ich jedoch verstehen, wie und warum die Welt
     so Endlos und Vielfältig ist. Ich bin auf verschiedene Begriffe wie Prozedural,
     Generisch und Noise gestoßen, bin in das Thema jedoch nie weiter eingestiegen.
     <br /><br />
     In der Vorlesung "Computergrafik" meines Informatikstudiums wurde als benotete Aufgabe
-    neben dem schreiben eines Raytracers und WebGl Shaders auch angeboten, generische Formen
-    zu erzeugen / konstruieren. Ich habe dabei direkt wieder an die generische Welt von Minecraft
-    gedacht und mir zur Aufgabe gemacht, im Rahmen dieser Abgabe eine kleine 100x100 Block
-    große, generisch erzeugte Welt zu konstruieren.
+    neben dem schreiben eines Raytracers und WebGL Shaders auch angeboten, generische Formen
+    zu erzeugen / konstruieren. Dabei dachte ich sofort wieder an die generische Welt von Minecraft
+    und machte es mir zur Aufgabe, im Rahmen dieser Abgabe eine kleine, 100x100 Blöcke große,
+    generisch erzeugte Welt zu konstruieren.
 </Section>
 
 <Section title="Der Plan">
     <Divider>
         <div slot="left">
-            Ziel ist es durch Überlagerung von Noisefunktionen einen Algorithmus zu
-            entwickeln, der eine organisch wirkende Welt in Minecraft generiert. Diese
+            Das Ziel ist es, durch die Überlagerung von Noise Funktionen einen Algorithmus
+            zu entwickeln, der eine organisch wirkende Welt in Minecraft generiert. Diese
             Welt soll relativ gerade Grasslandschaften haben und immer wieder von Hügeln,
             Seen und Stränden geprägt werden. Abschließend soll Minecrafttypisch das
             Konstrukt von dreidimensionalen Höhlen und Schluchten durchbohrt sein. <br />
 
             <br />
-            Um den CAD Aspekt der gegeben Aufgabe zu erfüllen, wird die generierte Sektion
-            der Welt mit einem Tool in eine .obj Datei exportiert, wie auf <ResourceReferenceElement
+            Um den CAD-Aspekt der Aufgabe zu erfüllen, wird die generierte Weltsektion mit
+            einem Tool in eine .obj-Datei exportiert. Dies ist in <ResourceReferenceElement
                 reference={image_allCombined}
                 showFullName={true}
             />
-            zu sehen in Blender gerendert und Abschließend mit einem 3D Drucker ausgedruckt.
-            Das Spiel Minecraft ist also in diesem Kontext lediglich das Tool, welches die
-            programmierten Noiseüberlagerungen darstellt (und Inspiration für dieses Projekt
+            zu sehen, wo sie in Blender gerendert und anschließend mit einem 3D-Drucker ausgedruckt
+            wird. Das Spiel Minecraft ist also in diesem Kontext lediglich das Tool, welches
+            die programmierten Noiseüberlagerungen darstellt (und Inspiration für dieses Projekt
             ist).<br /><br />
 
             Minecraft ist ein Paradebeispiel für das Konzept der <Link
@@ -142,12 +142,12 @@
 </Section>
 
 <Section title="Hinweis">
-    Die Funktionsweise (bzw. das Potential) von Noisefunktionen wird Mithilfe von Shadern
+    Die Funktionsweise (bzw. das Potential) von Noisefunktionen wird mithilfe von Shadern
     erklärt. Der Verwendete Code für den Fragment Shader ist beim Klicken auf das
     Canvas-Element einsehbar. Hinweis: Der Code für die Noisefunktionen wird als gegeben
     betrachtet und ist im Quelltext als nicht selbst verfasst gekennzeichnet. Der
-    restliche Code ist eigenarbeit. Um den Rahmen dieser Arbeit nicht zu sprengen, wird
-    der Code nicht direkt im Text, sondern in Form von Quelltextkommentaren erleutert.
+    restliche Code ist Eigenarbeit. Um den Rahmen dieser Arbeit nicht zu sprengen, wird
+    der Code nicht direkt im Text, sondern in Form von Quelltextkommentaren erläutert.
 </Section>
 
 <Section title="Prozedurale Landschaftsgenerierung">
@@ -156,26 +156,27 @@
     digitalen Umgebungen mittels Algorithmen. Sie nutzt mathematische Funktionen wie <Link
         href="https://www.cs.umd.edu/class/fall2019/cmsc425/handouts/lect14-perlin.pdf"
         >Perlin-Noise</Link
-    >, um vielfältige und realistisch wirkende Szenerien zu schaffen, ohne dass jede
-    Detail von Hand modelliert werden muss. Im vergleich zu reinen
-    Pseudo-Zufallsalgrotihmen bietet Noise eine interpolation zwischen Zufallswerten,
+    >, um vielfältige und realistisch wirkende Szenerien zu schaffen, ohne dass jedes
+    Detail von Hand modelliert werden müssen. Im Vergleich zu reinen
+    Pseudo-Zufallsalgorithmen bietet Noise eine Interpolation zwischen Zufallswerten,
     wodurch daraus generierte Inhalte "weiche" Zustandsänderungen aufweisen.
     <br /><br />
-    Beim einfachen Interpolieren zwischen Zufallswerten enteht ein sogennantes "Value Noise"
+    Beim einfachen Interpolieren zwischen Zufallswerten entsteht ein sogenanntes "Value Noise"
     (<ResourceReferenceElement reference={valueNoise} showFullName={false} />). Bei
     genauerem Betrachten lassen sich noch die harten Kanten zwischen den Zufallszahlen
-    erkennen, wodurch der Value noise eine "Blockartige struktur" aufweist.<br />
+    erkennen, wodurch der Value noise eine "blockartige Struktur" aufweist.<br />
     In manchen Anwendungsfällen (Wie in der Landschaftsgenerierung) sind solche offensichtlichen
-    Artefakte unerwünscht.<br /><br /> In diesen Fällen bietet der sogennante "Perlin
+    Artefakte unerwünscht.<br /><br /> In diesen Fällen bietet der sogenannte "Perlin
     Noise" (<ResourceReferenceElement reference={perlinNoise} showFullName={false} />) von <Link
         href="https://cs.nyu.edu/~perlin/">Ken Perlin</Link
-    > abhilfe. Dieser ist durch eine deutlich organischere Struktur gekennzeichnet. Im gegensatz
+    > abhilfe. Dieser ist durch eine deutlich organischere Struktur gekennzeichnet. Im Gegensatz
     zum Value Noise ist der Perlin Noise ein "Gradient Noise", also die Interpolation von Gradienten.
-    Im Gradient Noise werden an jedem Punkt des Gitters (Also die Eckpunkte zwischen denen
+    Im Gradient Noise werden an jedem Punkt des Gitters (Also die Eckpunkte, zwischen denen
     die Interpolation stattfindet, siehe <ResourceReferenceElement
         reference={perlinnoiseExplained}
         showFullName={false}
-    />) Gradientenvektoren generiert, die eine Richtung und eine Größe haben.
+    />) Gradientenvektoren generiert, die eine Richtung und eine Größe haben. <br />
+    <br />
 
     <ImageWithDesc imageRef={perlinnoiseExplained}>
         <img src="imgs/noiseexplain.png" alt="gradient noise explained" />
@@ -183,12 +184,14 @@
             - <Link href="https://adrianb.io/2014/08/09/perlinnoise.html">[Quelle]</Link>
         </span>
     </ImageWithDesc>
-    Diese Gradienten werden dann genutzt, um die Ausgabe basierend auf der Distanz zu den nächsten
-    Gitterpunkten zu interpolieren. Im Value Noise hingegen werden zufällige (Skalare) Werte
+    Basierend auf der Distanz zu den nächsten Gitterpunkten, werden diese Gradienten dann genutzt,
+    um die Ausgabe zu interpolieren. Im Value Noise hingegen werden zufällige (Skalare) Werte
     an den Gitterpunkten generiert und zwischen diesen interpoliert, ohne Berücksichtigung
-    der Richtung. Da der Perlin Noise relativ rechenintensiv ist, wurde der "Simplex Noise"
-    (Auch auf Basis von Gradienten) entwickelt
-    <ResourceReferenceElement reference={simplexNoise} showFullName={false} />)
+    der Richtung. Da der Perlin Noise relativ rechenintensiv ist, wurde der 'Simplex Noise',
+    auch auf Basis von Gradienten, entwickelt (<ResourceReferenceElement
+        reference={simplexNoise}
+        showFullName={false}
+    />).
 
     <div class="flex flex-wrap justify-evenly mt-7">
         <ImageWithDesc imageRef={valueNoise}>
@@ -218,15 +221,15 @@
     <Divider>
         <svelte:fragment slot="left">
             Für die Landschaftsgenerierung wird mittels Noise häufig die Terrainhöhe
-            bestimmt, die Farbwerte (Hier graustufen) geben also an, wie hoch die die
+            bestimmt, die Farbwerte (Hier Graustufen) geben also an, wie hoch die
             Landschaft an den gegebenen Koordinaten von der Grundhöhe (Baseline) entfernt
             sind <ResourceReferenceElement reference={perlinNoise3D} />. <br />
-            Trotz der weichen Übergänge und alles in allem organisch und zufällig wirkendem
-            Ergebnis, sieht das Graustufenmuster sehr gleichmäßig und "Eindimensional" aus.
-            Dieser Effekt ist bei der generierung von Landschaften unerwünscht. <br />
-            Eine mögliche Lösung ist die überlagerungen mehrerer (gleichartiger) Noise Funktionen,
+            Trotz der weichen Übergänge und des insgesamt organisch und zufällig wirkenden
+            Ergebnisses, wirkt das Graustufenmuster sehr gleichmäßig und "eindimensional". Dieser
+            Effekt ist bei der Generierung von Landschaften unerwünscht. <br />
+            Eine mögliche Lösung ist die Überlagerungen mehrerer (gleichartiger) Noise Funktionen,
             wobei diese sich in einem Offset unterscheiden. Dieser Offset lässt durch die Pseudorandomisierung
-            die Noisefunktion zueinander unterschiedlich Aussehen.
+            die Noisefunktion zueinander unterschiedlich aussehen.
         </svelte:fragment>
 
         <ImageWithDesc slot="right" imageRef={perlinNoise3D}>
@@ -277,13 +280,13 @@
 
     In den Beispielen (<ResourceReferenceElement reference={overlappingPerlinNoise} />,
     <ResourceReferenceElement reference={overlappingPerlinNoiseMax} />) werden drei
-    unterschiedlich skalierte Noisefunktionen verwendet. In Minecraft werden verschiedene
-    Noisefunktionen verwendet, um Physikalische Eigenschaften, wie z.B. Luftfeuchtigkeit
-    und Temperatur zu simulieren. Aus Kombination dieser Physikalischen Eigenschaften
+    unterschiedlich skalierte Noise Funktionen verwendet. In Minecraft werden verschiedene
+    Noise Funktionen verwendet, um physikalische Eigenschaften, wie z.B. Luftfeuchtigkeit
+    und Temperatur zu simulieren. Aus Kombination dieser physikalischen Eigenschaften
     lassen sich dann realistisch Biome ermitteln. Eine hohe Temperatur und niedrige
     Feuchtigkeit führt beispielsweise zu einer Wüste, bei einer hohen Feuchtigkeit zu
-    einem Regenwald (tropisch). Durch den Physikalischen Aspekt wirkt die Platzierung
-    benachbarter Biome logisch.
+    einem Regenwald (tropisch). Durch den physikalischen Aspekt wirkt die Platzierung
+    benachbarter Biome logisch bzw. realistisch.
 </Section>
 
 <Section title="Programmierung">
@@ -291,7 +294,7 @@
     anhand von Webbeispielen (mittels Shadern) gezeigt. Jetzt sollen die theoretischen
     Grundlagen in Minecraft implementiert werden. Die Generierung soll innerhalb einer
     leeren Minecraft Welt geschehen. Dabei gibt es grundsätzlich zwei Hauptansätze, um in
-    Minecraft (Java Edition) eigenen Code einschleusen zu können
+    Minecraft (Java Edition) eigenen Code einschleusen zu können.
     <ul>
         <li>
             Erstellung von <Link
@@ -321,12 +324,12 @@
                 Initialisierung der Perlin Noise Objekte
             </svelte:fragment>
             <svelte:fragment slot="body">
-                Als Parameter für den Perlin Noise Konstruktor wird ein seed erwartet,
-                also eine Zahl, die den Startwert des Pseudo-Zufallsalgrotihmus bildet. In
+                Als Parameter für den Perlin Noise Konstruktor wird ein Seed erwartet,
+                also eine Zahl, die den Startwert des Pseudo-Zufallsalgorithmus bildet. In
                 dem gegebene Codeschnipsel wird eine Zeichenkette gehashed und die daraus
                 resultierende Zahl als Argument verwendet. Es stehen somit drei Perlin
                 Noise Objekte zur Verfügung, bei den gleichen Eingabewerte jeweils
-                unterschiedliche Noisewerte liefern
+                unterschiedliche Noisewerte liefern.
             </svelte:fragment>
         </CodeStep>
         <CodeStep code={ITERATE_2D_COORDS}>
@@ -334,10 +337,10 @@
                 Iterierung durch die mögliche 2D Koordinaten
             </svelte:fragment>
             <svelte:fragment slot="body">
-                Es werden verschiedene felder gesetzt, wie die Größe der Welt (<Mark
+                Es werden verschiedene Felder gesetzt, wie die Größe der Welt (<Mark
                     >radius</Mark
                 >), die Basishöhe der Landschaft (<Mark>terrain_base</Mark>) sowie die
-                Y-Koordinate der Tiefsten Schicht im 3D Modell<br /><br />
+                Y-Koordinate der tiefsten Schicht in der Welt<br /><br />
                 Zum Schluss wird in einer verschachtelten Schleife für jede mögliche <Mark
                     >x</Mark
                 > und <Mark>z</Mark> Koordinaten-Kombination die <Mark>calculate</Mark> Funktion
@@ -387,11 +390,11 @@
                 Koordinate genommen wird. Das Ergebnis aus diesen beiden Kombinationen ist
                 vergleichbar mit dem Blick auf das Modell von oben.
                 <br /><br />
-                Erwähnenswert ist die unterschiedliche Skalierung der Noise-Funktionen. Bei
+                Erwähnenswert ist die unterschiedliche Skalierung der Noise Funktionen. Bei
                 <Mark>noise1</Mark>, dem "Flat Noise" (<ResourceReferenceElement
                     reference={minecraftflatNoise}
                 />) werden die Koordinaten durch den Faktor 4 geteilt, wodurch die
-                Noisefunktion langsamer fortschreitet. Die generierte Landschaft bleibt
+                Noise Funktion langsamer fortschreitet. Die generierte Landschaft
                 verändert sich dadurch schwächer. Das Ergebnis aus <Mark>noise2</Mark>,
                 dem "Hilly Noise" (<ResourceReferenceElement
                     reference={minecrafthillyNoise}
@@ -414,7 +417,7 @@
                 Block vom Typ Grass, Sand oder Wasser sein soll. Falls <Mark
                     >flat_y<Nbsp />&lt<Nbsp />hilly_y</Mark
                 > wurde die Y-Koordinate vom "Hilly Noise" beeinflusst. Auf hügeligen Landschaften
-                sollen keine Seen und Strände entstehen, weshalb direkt ein Grassblock gewählt
+                sollen keine Seen oder Strände entstehen, weshalb direkt ein Grassblock gewählt
                 wird. Ansonsten wird mittels einer dritten Noise-Funktion (<Mark
                     >water_noise</Mark
                 >) der Blocktyp ermittelt. Da die Perlin Noise Implementation zwischen -1
@@ -428,7 +431,7 @@
                 > und <Mark>0.6</Mark> wird ein Sandblock gewählt, bei einem Wert größer als
                 <Mark>0.6</Mark> ein Wasserblock. Durch diese Bedingungen wird um enstandenen
                 Wasserblöcken immer Sandblöcke gesetzt, die Form des Sees und Strandes hängt
-                von der Noise funktion ab. In <ResourceReferenceElement
+                von der Noise Funktion ab. In <ResourceReferenceElement
                     reference={simulationTerrainGeneration}
                     showFullName={true}
                 /> wird mitthilfe eines Shaders die behandelte Vorgehensweise zur prozeduralen
@@ -455,7 +458,7 @@
                 <Divider>
                     <span slot="left">
                         Diese initiale Phase findet in den Zeilen <Mark>3-5</Mark> statt, wodurch
-                        die Welt zunächst als ein massiver Kubus mit einer dynamischen, hohen
+                        die Welt zunächst als ein massiver Kubus mit einer dynamisch hohen
                         Oberfläche erscheint. Die eigentliche Höhlengenerierung erfolgt durch
                         das 'Aushöhlen' dieses Kubus mittels 3D Perlin-Noise. Um realistischere
                         Höhlenformationen zu schaffen, variiert die Skalierung des Noises mit
@@ -480,14 +483,14 @@
     </ol>
     <Divider>
         <svelte:fragment slot="left">
-            Die fertige virtuelle Welt sieht nach Durchführung der oberen 5 Schritte sieht
+            Die fertige virtuelle Welt sieht nach Durchführung der oberen 5 Schritte
             wie in <ResourceReferenceElement
                 reference={minecraftAllTogether}
                 showFullName={false}
             />
-            aus. Dank der unendlichkeit von Perlin Noise kann der Radius, in dem die Welt generiert
-            wird, problemlos vergrößert werden. Die 100x100 große Welt ist somit lediglich
-            ein Ausschnitt aus theoretisch unendlichen virtuellen Welt.
+            aus. Dank der Unendlichkeit von Perlin Noise kann der Radius, in dem die Welt generiert
+            wird, problemlos vergrößert werden. Die 100x100 Block große Welt ist somit lediglich
+            ein Ausschnitt aus einer unendlich weitläufingen virtuellen Welt.
         </svelte:fragment>
         <ImageWithDesc imageRef={minecraftAllTogether} slot="right">
             <Viewer3d directory="alltogether" width={400} />
@@ -507,29 +510,32 @@
     Diese Datei kann dann von einen beliebigen Slicer importiert werden. In meinem Fall verwende
     ich den kostenlosen <Link href="https://ultimaker.com/software/ultimaker-cura/"
         >Utimaker Cura</Link
-    > Slicer. <br /><br />
+    > Slicer. Zum Eigendruck hier der Link zur <Link href="alltogether/out.obj">.obj</Link
+    > Datei und dem generierten <Link href="alltogether/EN4PRO_ComputerGrafikWorld.gcode"
+        >G-Code</Link
+    > (Optimiert für ELEGOO Neptune 4)
+
+    <br /><br />
     <ImageWithDesc imageRef={curaWithItem}>
         <img src="FotoVonSlicerVorbereiten.png" />
     </ImageWithDesc>
 
     <br /><br />
-    Nach 7 Stündigem Drucken kann man die kleine selbstprogrammierte Minecraft
-    Welt in den Händen halten.
+    Nach 7-stündigem Drucken kann man die kleine selbstprogrammierte Minecraft Welt in den
+    Händen halten.
 
     <div>
-        <img src="realimg/isometric.jpg">
+        <img src="realimg/isometric.jpg" />
         <div class="flex imgshorizontal">
-            <img src="realimg/close.jpg">
-            <img src="realimg/top.jpg">
-            <img src="realimg/cave.jpg">
+            <img src="realimg/close.jpg" />
+            <img src="realimg/top.jpg" />
+            <img src="realimg/cave.jpg" />
         </div>
     </div>
-
-
 </Section>
 
 <style>
-    .imgshorizontal{
+    .imgshorizontal {
         max-width: 33.33333%;
     }
 </style>
