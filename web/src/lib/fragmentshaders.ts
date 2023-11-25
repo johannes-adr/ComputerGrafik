@@ -9,7 +9,13 @@ varying vec2 coordinates;
 `
 
 const SHADER_PNOISEFUNC =
-`float pnoise(float speed, float localScale, float offset){
+`/*
+Wrapper um Noise Funktion für weniger Repitition im Shadercode (übernimmt berechnung von Zeit und Koordinaten):
+speed: Faktor um wie viel schneller die Noise Funktion verschoben wird
+localScale: Skalierung (größerer Wert macht mehr vom Noise sichtbar)
+offset: Konstante verschiebung der Noisefunktion
+*/
+float pnoise(float speed, float localScale, float offset){
     vec2 coordWAspect = coordinates;
     coordWAspect.x *= aspectratio;
     return noise((coordWAspect + offset + vec2(time * speed)) * localScale * scale);
@@ -33,8 +39,11 @@ FOLLOWING CODE IS MINE
     
 void main(void) {
     float time2 = time / 7.0;
+    //lineare x-verschiebung mit zeit, durch sin auf y wert entsteht ein schwingendes Bild
     vec2 animated = (coordinates + vec2(time2, time / 10.0 + sin(time * 2.0) / 5.0)) * 10.0;
     float noised = noise(animated);
+    
+    // -1 bis 1 wird zu 0 bis 1
     vec4 color = vec4(vec3(noised*.5+.5),1.0);
     gl_FragColor = color;
 }`
@@ -106,6 +115,9 @@ FOLLOWING CODE IS MINE!!!
 ===================*/    
 ${SHADER_PNOISEFUNC}
 
+
+//Ziel ist es, durch Anwendung eines Fractal Noise 
+//wellenähnliche Strukturen zu schaffen
 void drawWater(float superfast){
     float noise1 = pnoise(0.15, 2.5,0.0);
     
