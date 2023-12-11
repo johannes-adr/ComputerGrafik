@@ -3,11 +3,12 @@
   import createShader from "$lib/shader";
   export let fragmentShader: string;
   export let openModal: undefined | ((glsl:string)=>void) = undefined;
+  export let renderOnce = false;
   let canvas: HTMLCanvasElement;
   export let width = 200;
   export let height = 200;
   onMount(() => {
-    createShader(canvas, fragmentShader);
+    createShader(canvas, fragmentShader,renderOnce);
   });
 </script>
 

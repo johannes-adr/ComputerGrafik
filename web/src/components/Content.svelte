@@ -12,6 +12,7 @@
         FRAGMENT_SHADER_RESULTING_IN_WATER_ETC,
         FRAGMENT_SHADER_USING_PERLIN_COMBINED,
         FRAGMENT_SHADER_USING_PERLIN_COMBINED_MAX,
+        FRAGMENT_SHADER_USING_PERLIN_COMPLEX_ISLANDS,
         FRAGMENT_SHADER_USING_PERLIN_NOISE,
         FRAGMENT_SHADER_USING_SIMPLEX_NOISE,
         FRAGMENT_SHADER_USING_VALUE_NOISE,
@@ -100,11 +101,11 @@
     Größe der spielbaren Welt fasziniert. Damals als einfacher Benutzer habe ich das ganze
     System nicht weiter hinterfragt, mit meinem stetig zunehmenden Interesse zur
     Funktionsweise von Software / IT wollte ich jedoch verstehen, wie und warum die Welt
-    so Endlos und Vielfältig ist. Ich bin auf verschiedene Begriffe wie Prozedural,
+    so endlos und vielfältig ist. Ich bin auf verschiedene Begriffe wie Prozedural,
     Generisch und Noise gestoßen, bin in das Thema jedoch nie weiter eingestiegen.
     <br /><br />
     In der Vorlesung "Computergrafik" meines Informatikstudiums wurde als benotete Aufgabe
-    neben dem schreiben eines Raytracers und WebGL Shaders auch angeboten, generische Formen
+    neben dem Schreiben eines Raytracers und WebGL Shaders auch angeboten, generische Formen
     zu erzeugen / konstruieren. Dabei dachte ich sofort wieder an die generische Welt von Minecraft
     und machte es mir zur Aufgabe, im Rahmen dieser Abgabe eine kleine, 100x100 Blöcke große,
     generisch erzeugte Welt zu konstruieren.
@@ -113,9 +114,9 @@
 <Section title="Der Plan">
     <Divider>
         <div slot="left">
-            Das Ziel ist es, durch die Überlagerung von Noise Funktionen einen Algorithmus
+            Das Ziel ist es, durch die Überlagerung von Noise-Funktionen einen Algorithmus
             zu entwickeln, der eine organisch wirkende Welt in Minecraft generiert. Diese
-            Welt soll relativ gerade Grasslandschaften haben und immer wieder von Hügeln,
+            Welt soll relativ gerade Graslandschaften haben und immer wieder von Hügeln,
             Seen und Stränden geprägt werden. Abschließend soll Minecrafttypisch das
             Konstrukt von dreidimensionalen Höhlen und Schluchten durchbohrt sein. <br />
 
@@ -143,7 +144,7 @@
 
 <Section title="Hinweis">
     Die Funktionsweise (bzw. das Potential) von Noisefunktionen wird mithilfe von Shadern
-    erklärt. Der Verwendete Code für den Fragment Shader ist beim Klicken auf das
+    erklärt. Der verwendete Code für den Fragment Shader ist beim Klicken auf das
     Canvas-Element einsehbar. Hinweis: Der Code für die Noisefunktionen wird als gegeben
     betrachtet und ist im Quelltext als nicht selbst verfasst gekennzeichnet. Der
     restliche Code ist Eigenarbeit. Um den Rahmen dieser Arbeit nicht zu sprengen, wird
@@ -185,7 +186,7 @@
         </span>
     </ImageWithDesc>
     Basierend auf der Distanz zu den nächsten Gitterpunkten, werden diese Gradienten dann genutzt,
-    um die Ausgabe zu interpolieren. Im Value Noise hingegen werden zufällige (Skalare) Werte
+    um die Ausgabe zu interpolieren. Im Value Noise hingegen werden zufällige (skalare) Werte
     an den Gitterpunkten generiert und zwischen diesen interpoliert, ohne Berücksichtigung
     der Richtung. Da der Perlin Noise relativ rechenintensiv ist, wurde der 'Simplex Noise',
     auch auf Basis von Gradienten, entwickelt (<ResourceReferenceElement
@@ -225,9 +226,9 @@
             Landschaft an den gegebenen Koordinaten von der Grundhöhe (Baseline) entfernt
             sind <ResourceReferenceElement reference={perlinNoise3D} />. <br />
             Trotz der weichen Übergänge und des insgesamt organisch und zufällig wirkenden
-            Ergebnisses, wirkt das Graustufenmuster sehr gleichmäßig und "eindimensional". Dieser
-            Effekt ist bei der Generierung von Landschaften unerwünscht. <br />
-            Eine mögliche Lösung ist die Überlagerungen mehrerer (gleichartiger) Noise Funktionen,
+            Ergebnisses, wirkt das Graustufenmuster sehr gleichmäßig und "eindimensional".
+            Dieser Effekt ist bei der Generierung von Landschaften unerwünscht. <br />
+            Eine mögliche Lösung ist die Überlagerungen mehrerer (gleichartiger) Noise-Funktionen,
             wobei diese sich in einem Offset unterscheiden. Dieser Offset lässt durch die Pseudorandomisierung
             die Noisefunktion zueinander unterschiedlich aussehen.
         </svelte:fragment>
@@ -257,7 +258,7 @@
     abgeleitet werden können. In <ResourceReferenceElement
         reference={overlappingPerlinNoiseMax}
         showFullName={false}
-    /> wird der größte Wert der verwendeteten Noise funktionen an einem Koordinatenpunkt gewählt.
+    /> wird der größte Wert der verwendeteten Noise-Funktionen an einem Koordinatenpunkt gewählt.
     Die daraus entstehende Landschaft sieht dadurch deutlich natürlicher aus. Aus den Graustufen
     lassen sich die Biome "Gebirge" und "Weiden" modellieren, wobei die Gebirge hoch und "rau"
     sind und die Weiden geglättet und weich
@@ -280,8 +281,8 @@
 
     In den Beispielen (<ResourceReferenceElement reference={overlappingPerlinNoise} />,
     <ResourceReferenceElement reference={overlappingPerlinNoiseMax} />) werden drei
-    unterschiedlich skalierte Noise Funktionen verwendet. In Minecraft werden verschiedene
-    Noise Funktionen verwendet, um physikalische Eigenschaften, wie z.B. Luftfeuchtigkeit
+    unterschiedlich skalierte Noise-Funktionen verwendet. In Minecraft werden verschiedene
+    Noise-Funktionen verwendet, um physikalische Eigenschaften, wie z.B. Luftfeuchtigkeit
     und Temperatur zu simulieren. Aus Kombination dieser physikalischen Eigenschaften
     lassen sich dann realistisch Biome ermitteln. Eine hohe Temperatur und niedrige
     Feuchtigkeit führt beispielsweise zu einer Wüste, bei einer hohen Feuchtigkeit zu
@@ -380,7 +381,7 @@
                     </ImageWithDesc>
                 </div>
 
-                Durch Überlappung der beiden Noise Funktionen (<ResourceReferenceElement
+                Durch Überlappung der beiden Noise-Funktionen (<ResourceReferenceElement
                     reference={minecraftflatNoise}
                 />,<ResourceReferenceElement reference={minecrafthillyNoise} />) entsteht
                 ein komplexes Modell (<ResourceReferenceElement
@@ -390,15 +391,14 @@
                 Koordinate genommen wird. Das Ergebnis aus diesen beiden Kombinationen ist
                 vergleichbar mit dem Blick auf das Modell von oben.
                 <br /><br />
-                Erwähnenswert ist die unterschiedliche Skalierung der Noise Funktionen. Bei
+                Erwähnenswert ist die unterschiedliche Skalierung der Noise-Funktionen. Bei
                 <Mark>noise1</Mark>, dem "Flat Noise" (<ResourceReferenceElement
                     reference={minecraftflatNoise}
-                />) werden die Koordinaten durch den Faktor 4 geteilt, wodurch die
-                Noise Funktion langsamer fortschreitet. Die generierte Landschaft
-                verändert sich dadurch schwächer. Das Ergebnis aus <Mark>noise2</Mark>,
-                dem "Hilly Noise" (<ResourceReferenceElement
-                    reference={minecrafthillyNoise}
-                />), wird im Gegensatz zu
+                />) werden die Koordinaten durch den Faktor 4 geteilt, wodurch die Noise
+                Funktion langsamer fortschreitet. Die generierte Landschaft verändert sich
+                dadurch schwächer. Das Ergebnis aus <Mark>noise2</Mark>, dem "Hilly Noise"
+                (<ResourceReferenceElement reference={minecrafthillyNoise} />), wird im
+                Gegensatz zu
                 <Mark>noise1</Mark> mit einem größeren Faktor multipliziert, wodurch die generierte
                 Landschaft stärker ausschlägt.
 
@@ -425,18 +425,18 @@
                     >waternoise<Nbsp />&lt<Nbsp />0.4</Mark
                 > für einen Grassblock der Zahlenbereich von <Mark
                     >-1<Nbsp />bis<Nbsp />0.4</Mark
-                > eingeschlossen, also ein Großteil des Zahlenraums der Noise Funktion. Somit
+                > eingeschlossen, also ein Großteil des Zahlenraums der Noise-Funktion. Somit
                 werden die meißten Blöcke zu Grassblöcken. Liegt der Wert zwischen <Mark
                     >0.4</Mark
                 > und <Mark>0.6</Mark> wird ein Sandblock gewählt, bei einem Wert größer als
                 <Mark>0.6</Mark> ein Wasserblock. Durch diese Bedingungen wird um enstandenen
                 Wasserblöcken immer Sandblöcke gesetzt, die Form des Sees und Strandes hängt
-                von der Noise Funktion ab. In <ResourceReferenceElement
+                von der Noise-Funktion ab. In <ResourceReferenceElement
                     reference={simulationTerrainGeneration}
                     showFullName={true}
                 /> wird mitthilfe eines Shaders die behandelte Vorgehensweise zur prozeduralen
                 Landschaftsgenerierung visualisiert. Die grauen Bereiche sollen Gebirge darstellen,
-                grüne Flächen sind Grasslandschaften, blau Seen und gelb Strände.
+                grüne Flächen sind Graslandschaften, blau Seen und gelb Strände.
                 <br /><br />
 
                 <ImageWithDesc imageRef={simulationTerrainGeneration}>
@@ -483,8 +483,8 @@
     </ol>
     <Divider>
         <svelte:fragment slot="left">
-            Die fertige virtuelle Welt sieht nach Durchführung der oberen 5 Schritte
-            wie in <ResourceReferenceElement
+            Die fertige virtuelle Welt sieht nach Durchführung der oberen 5 Schritte wie
+            in <ResourceReferenceElement
                 reference={minecraftAllTogether}
                 showFullName={false}
             />
@@ -521,7 +521,7 @@
     </ImageWithDesc>
 
     <br /><br />
-    Nach 7-stündigem Drucken kann man die kleine selbstprogrammierte Minecraft Welt in den
+    Nach 7-stündigem Drucken kann man die kleine selbstprogrammierte Minecraft-Welt in den
     Händen halten.
 
     <div>
@@ -532,6 +532,29 @@
             <img src="realimg/cave.jpg" />
         </div>
     </div>
+    <br /><br />
+    <Section title="Extra: Haunted Island">
+        Durch Verringerung der Höhenwerte mit zunehmender Distanz zum Mittelpunkt erreicht
+        man, dass sich in der Mitte eine Hauptinsel bildet. Die Insel verändert sich mit
+        Bewegung der Maus. Wie sich dem Code entnehmen lässt, sollte das ganze eigentlich
+        ein simpler Raytracer werden, der Schatten erzeugt. Der ungewollt entstandene
+        Effekt eines Geistes der um die Insel fliegt fande ich jedoch interessanter.
+        <br /><br />
+
+        <NoiseExample
+            {openModal}
+            fragmentShader={FRAGMENT_SHADER_USING_PERLIN_COMPLEX_ISLANDS}
+        /><br />
+
+        <br /><br />
+        <sub
+            >Auch sehr Interessant: <Link
+                href="https://www.youtube.com/watch?v=na7LuZsW2UM">Video</Link
+            ></sub
+        >
+    </Section>
+
+    <h1>===ENDE===</h1>
 </Section>
 
 <style>

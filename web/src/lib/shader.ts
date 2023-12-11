@@ -1,6 +1,19 @@
 let renders: (()=>void)[] = [];
 
-export default function createShader(canvas: HTMLCanvasElement, fragmentShaderCode: string) {
+
+let cursor_x = -1;
+let cursor_y = -1;
+
+if("document" in globalThis){
+  document.onmousemove = function(event)
+{
+ cursor_x = event.pageX;
+ cursor_y = event.pageY;
+}
+
+}
+
+export default function createShader(canvas: HTMLCanvasElement, fragmentShaderCode: string, renderOnce: boolean) {
   let gl = canvas.getContext("webgl")!;
   // Vertex-Shader
   let vertexShader = gl.createShader(gl.VERTEX_SHADER)!;
@@ -33,6 +46,7 @@ export default function createShader(canvas: HTMLCanvasElement, fragmentShaderCo
   let scrollYUniformLocation = gl.getUniformLocation(program, "scrolly")
   let aspectRatio = gl.getUniformLocation(program,"aspectratio");
   let scale = gl.getUniformLocation(program,"scale");
+  let mousePos = gl.getUniformLocation(program,"mousePos");
   // Vertices für ein Quad, das den gesamten Bildschirm abdeckt
   var vertices = [
     -1.0,
@@ -59,9 +73,8 @@ export default function createShader(canvas: HTMLCanvasElement, fragmentShaderCo
   let startTime = Date.now();
   let counter = 0;
 
-  function isInViewport() {
-    var rect = canvas.getBoundingClientRect();
-    var html = document.documentElement;
+  function isInViewport(rect: any) {
+    let html = document.documentElement;
     return (
       rect.top >= 0 &&
       rect.left >= 0 &&
@@ -71,7 +84,19 @@ export default function createShader(canvas: HTMLCanvasElement, fragmentShaderCo
   }
 
   function render() {
-    if (isInViewport()&&  counter % 2 == 0) {
+    let rect = canvas.getBoundingClientRect();
+
+    if (isInViewport(rect)&&  counter % 2 == 0 || renderOnce) {
+      let glcursorx = cursor_x - rect.left - window.scrollX;
+      let glcursory = cursor_y - rect.top - window.scrollY;
+      glcursorx /= rect.width;
+      glcursory /= rect.height;
+      if(glcursorx < 0.0)glcursorx = 0.0;
+      else if(glcursorx > 1.0)glcursorx = 1.0;
+
+      if(glcursory < 0.0)glcursory = 0.0;
+      else if(glcursory > 1.0)glcursory = 1.0;
+
       let currentTime = Date.now();
       let time = (currentTime - startTime) / 1000; // Zeit in Sekunden
 
@@ -80,6 +105,8 @@ export default function createShader(canvas: HTMLCanvasElement, fragmentShaderCo
       gl.uniform1f(scrollYUniformLocation, window.scrollY);
       gl.uniform1f(aspectRatio, canvas.width / canvas.height);
       gl.uniform1f(scale,1.0);
+
+      gl.uniform2f(mousePos,glcursorx,1-glcursory);
       // Leere den Bildschirm und zeichne das Quad
       gl.clearColor(0.0, 0.0, 0.0, 1.0);
       gl.clear(gl.COLOR_BUFFER_BIT);
@@ -88,7 +115,9 @@ export default function createShader(canvas: HTMLCanvasElement, fragmentShaderCo
     }
     counter += 1;
   }
-  renders.push(render);
+  if(!renderOnce){
+    renders.push(render);
+  }
   render();
 }
 
@@ -104,4 +133,3 @@ if (globalThis["window"] !== undefined) {
   globRenderLoop();
 
 }
-

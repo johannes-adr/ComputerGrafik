@@ -5,7 +5,9 @@ const SHADER_VARIABLES =
 uniform float time;
 uniform float aspectratio;
 uniform float scale;
+uniform vec2 mousePos;
 varying vec2 coordinates;
+
 `
 
 const SHADER_PNOISEFUNC =
@@ -101,6 +103,90 @@ void main(void) {
     gl_FragColor = color;
 }
 `;
+
+export const FRAGMENT_SHADER_USING_PERLIN_COMPLEX_ISLANDS = 
+`${SHADER_VARIABLES}
+
+/*===================
+FOLLOWING CODE IS NOT MINE!!!
+===================*/
+${PERLIN_NOISE_FRAGMENT}
+/*===================
+FOLLOWING CODE IS MINE!!!
+===================*/    
+float pnoise(float localScale, float offset){
+    vec2 coordWAspect = coordinates + mousePos / 30.0;
+    coordWAspect.x *= aspectratio;
+    return noise((coordWAspect + offset) * localScale * scale);
+}
+
+float heightAtCoord(vec2 coordinates){
+    float dist_to_center = distance(coordinates,vec2(0.5,0.5));
+    float noise1 = pnoise( 10.0,50.0) - 0.7 - dist_to_center * 1.5;
+    float noise2 = pnoise( 7.0, 1521.0) / 2.0;
+    float noise3 = pnoise( 2.0, -2320.0);
+    float noise4 = pnoise( 15.0, -2320.0) /2.0 - dist_to_center * 2.5;
+    float combined = noise1 + noise2 + noise3 + noise4;
+    combined *= 0.4;
+    if(combined<-1.0){
+        combined = -1.0;
+    }
+    combined += 1.0;
+    combined = log(combined + 0.1) + 1.0;
+    if(combined > 1.0){
+        combined = 1.0;
+    }
+    return combined;
+}
+
+void main(void) {
+    vec2 sunPos2D = vec2(sin(time/2.0),cos(time/2.0)) / 0.5 + 1.0;
+    vec3 sunPos = vec3(sunPos2D,7.5);
+    float height_at_here = heightAtCoord(coordinates);
+   
+    vec3 pixelPos = vec3(coordinates,height_at_here + 0.3);
+    vec3 rayDir = normalize(sunPos-pixelPos);
+
+    for (float t = 0.01; t < 1.0; t += 0.025) {
+        vec3 currentRayPos = pixelPos + t * rayDir;
+        float heightAtCurrentRayPos = heightAtCoord(currentRayPos.xy);
+        if(currentRayPos.z > 1.0){
+            break;
+        }
+        if(distance(currentRayPos, sunPos) < 0.1){
+            break;
+        }
+
+        if (heightAtCurrentRayPos > currentRayPos.z) {
+            gl_FragColor = vec4(vec3(t),1.0);
+            return;
+            break;
+        }
+            
+    }
+
+
+    vec3 color;
+    if(height_at_here <= 0.1){
+        color = vec3(0.435,0.682,0.698);
+        float fac = 10.0;
+        color += pnoise(12.0,time / 20.0) / fac - pnoise(20.0,0.0) / fac / 2.0;    
+    }else if(height_at_here < 0.4){
+        color = vec3(0.859,0.741,0.651);
+    }else if(height_at_here < 0.7){
+        color = vec3(0.631,0.71,0.408);
+    }
+    else{
+       // vec4 color = vec4(vec3(height_at_here*.5+.5),1.0);
+        color = vec3(0.314,0.502,0.31);
+        color -= height_at_here / 3.0;
+    }
+    color += height_at_here / 10.0;
+   
+    gl_FragColor = vec4(color,1.0);
+}
+`;
+
 
 
 export const FRAGMENT_SHADER_RESULTING_IN_WATER_ETC = 
