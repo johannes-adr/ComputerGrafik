@@ -1,6 +1,6 @@
 import { PERLIN_NOISE_FRAGMENT, SIMPLEX_NOISE_FRAGMENT, VALUE_NOISE_FRAGMENT } from "./perlinnoise";
 
-const SHADER_VARIABLES = 
+export const SHADER_VARIABLES = 
 `precision mediump float;
 uniform float time;
 uniform float aspectratio;
@@ -10,7 +10,7 @@ varying vec2 coordinates;
 
 `
 
-const SHADER_PNOISEFUNC =
+export const SHADER_PNOISEFUNC =
 `/*
 Wrapper um Noise Funktion für weniger Repitition im Shadercode (übernimmt berechnung von Zeit und Koordinaten):
 speed: Faktor um wie viel schneller die Noise Funktion verschoben wird
@@ -53,6 +53,8 @@ void main(void) {
 }
 
 
+
+
 export const FRAGMENT_SHADER_USING_VALUE_NOISE = fragmentShaderUsingNoise(VALUE_NOISE_FRAGMENT);
 export const FRAGMENT_SHADER_USING_PERLIN_NOISE = fragmentShaderUsingNoise(PERLIN_NOISE_FRAGMENT);
 export const FRAGMENT_SHADER_USING_SIMPLEX_NOISE = fragmentShaderUsingNoise(SIMPLEX_NOISE_FRAGMENT);
@@ -79,6 +81,7 @@ void main(void) {
     gl_FragColor = color;
 }
 `;
+
 
 
 export const FRAGMENT_SHADER_USING_PERLIN_COMBINED_MAX = 

@@ -6,7 +6,7 @@
 
 <div class="flex flex-col mb-7 mx-5" id={imageRef.getFullName()}>
     <div class="flex flex-col items-center">
-        <div class="flex">
+        <div class="flex flex-wrap gap-3">
             <slot />
         </div>
         <span class="break-words max-w-xs">{imageRef.getFullName()}</span>

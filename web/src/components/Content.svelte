@@ -29,6 +29,10 @@
         SET_TOPLEVEL_BLOCK,
     } from "$lib/javacode";
     import CodeStep from "./CodeStep.svelte";
+    import createShaderFractalNoise, { Shader3D } from "$lib/shader3d";
+    import createShaderWorldSimulation, {
+        rotationsValues,
+    } from "$lib/worldSimulationShader3d";
     //@ts-ignore
     // import Prism from "prismjs";
     // import loadLanguages from "prismjs/components/"
@@ -84,6 +88,17 @@
         modal.show = true;
         modal.htmlcode = html;
         modal = modal;
+    }
+    let rotX = 45;
+    let rotY = 20;
+    let rotZ = 80;
+    let scale = 60;
+
+    $: {
+        rotationsValues.x = rotX;
+        rotationsValues.y = rotY;
+        rotationsValues.z = rotZ - 100;
+        rotationsValues.scale = scale / 100;
     }
 
     onMount(() => {
@@ -234,13 +249,18 @@
         </svelte:fragment>
 
         <ImageWithDesc slot="right" imageRef={perlinNoise3D}>
-            <img src="imgs/perlinnoise3d.png" alt="perlin noise 2d on 3d explained" />
+            <NoiseExample
+                {openModal}
+                fragmentShader={""}
+                createShaderFn={createShaderFractalNoise}
+            />
+            <!-- <img src="imgs/perlinnoise3d.png" alt="perlin noise 2d on 3d explained" />
             <span slot="desc">
                 - <Link
                     href="https://www.researchgate.net/figure/Perlin-noise-pattern-represented-as-greyscale-image-left-and-the-resulting-terrain_fig1_274384740"
                     >[Quelle]</Link
                 >
-            </span>
+            </span> -->
         </ImageWithDesc>
     </Divider>
 
@@ -437,6 +457,20 @@
                 /> wird mitthilfe eines Shaders die behandelte Vorgehensweise zur prozeduralen
                 Landschaftsgenerierung visualisiert. Die grauen Bereiche sollen Gebirge darstellen,
                 grüne Flächen sind Graslandschaften, blau Seen und gelb Strände.
+
+                <br /><br />
+                Zur verbesserten Visualisierung wird wie in <ResourceReferenceElement
+                    reference={perlinNoise3D}
+                    showFullName={true}
+                /> die Welt dreidimensional dargestellt. Kurz zur Funktionsweise des Shaders:
+                Mittels JavaScript wird ein Mesh aus einem Triangle Strip generiert, wobei
+                am Ende eine flache Plane erzeugt wird. Mittels eines Vertex Shaders wird durch
+                Anwendung des oben beschriebenen Verfahrens die Höhe an einer Koordinate berechnet.
+                Der Vertexshader transformiert somit zur Laufzeit die flache Plane, wodurch
+                am Ende eine dreidimensionale Abbildung der Welt entsteht. Mit verschiedenen
+                Rotationsmatrizen wird die Plane entsprechend gedreht. Die Plane wird schließlich
+                vom Fragmenshader gemäß den übergebenen Höhenwerten bemahlt. Bei Interesse
+                (wie bereits erwäht): Canvas Anklicken.
                 <br /><br />
 
                 <ImageWithDesc imageRef={simulationTerrainGeneration}>
@@ -445,6 +479,41 @@
                         {openModal}
                         fragmentShader={FRAGMENT_SHADER_RESULTING_IN_WATER_ETC}
                     />
+                    <div class="flex gap-2">
+                        <NoiseExample
+                            {openModal}
+                            fragmentShader={""}
+                            createShaderFn={createShaderWorldSimulation}
+                        />
+                        <div class="flex flex-col">
+                            <h1>Control</h1>
+                            <label>x</label>
+                            <span>
+                                <input type="range" min="0" max="90" bind:value={rotX} />
+                                <span>{rotX}</span>
+                            </span>
+                            <label>y</label>
+                            <span>
+                                <input type="range" min="0" max="90" bind:value={rotY} />
+                                <span>{rotY}</span>
+                            </span>
+                            <!-- <label>z</label>
+                            <span>
+                                <input type="range" min="0" max="90" bind:value={rotZ}/>
+                                <span>{rotZ}</span>
+                            </span> -->
+                            <label>scale</label>
+                            <span>
+                                <input
+                                    type="range"
+                                    min="20"
+                                    max="80"
+                                    bind:value={scale}
+                                />
+                                <span>{scale}</span>
+                            </span>
+                        </div>
+                    </div>
                 </ImageWithDesc>
             </svelte:fragment>
         </CodeStep>
